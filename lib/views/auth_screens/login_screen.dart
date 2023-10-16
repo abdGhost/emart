@@ -1,6 +1,8 @@
 import 'package:emart_app/consts/social_icon.dart';
+import 'package:emart_app/views/auth_screens/signup_screen.dart';
 import 'package:emart_app/widgets/custom_textfield_widget.dart';
 import 'package:emart_app/widgets/our_button_widget.dart';
+import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../../consts/consts.dart';
@@ -53,7 +55,11 @@ class LoginScreen extends StatelessWidget {
                     color: lightGolden,
                     title: signup,
                     textColor: redColor,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(
+                        () => const SignupScreen(),
+                      );
+                    },
                   ).box.width(context.screenWidth - 50).make(),
                   10.heightBox,
                   loginWith.text.color(fontGrey).make(),

@@ -6,9 +6,7 @@ Widget ourButton({onPressed, color, textColor, String? title}) {
       backgroundColor: color,
       padding: const EdgeInsets.all(12),
     ),
-    onPressed: () {
-      onPressed;
-    },
+    onPressed: onPressed,
     child: title!.text.fontFamily(bold).color(textColor).make(),
   );
 }
