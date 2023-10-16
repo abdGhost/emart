@@ -1,6 +1,6 @@
-import 'package:emart_app/consts/consts.dart';
-import 'package:emart_app/views/auth_screens/login_screen.dart';
-import 'package:emart_app/widgets/app_logo_widget.dart';
+import '../../consts/consts.dart';
+import '../../views/auth_screens/login_screen.dart';
+import '../../widgets/app_logo_widget.dart';
 import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {

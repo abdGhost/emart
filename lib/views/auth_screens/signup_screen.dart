@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import '../../consts/consts.dart';
-import '../../consts/social_icon.dart';
 import '../../widgets/app_logo_widget.dart';
 import '../../widgets/bg_widget.dart';
 import '../../widgets/custom_textfield_widget.dart';

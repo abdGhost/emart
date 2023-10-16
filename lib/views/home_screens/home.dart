@@ -1,8 +1,8 @@
-import 'package:emart_app/controllers/home_controller.dart';
-import 'package:emart_app/views/account_screens/account_screen.dart';
-import 'package:emart_app/views/carts_screens/carts_screen.dart';
-import 'package:emart_app/views/category_screens/category_screen.dart';
-import 'package:emart_app/views/home_screens/home_screen.dart';
+import '../../controllers/home_controller.dart';
+import '../../views/account_screens/account_screen.dart';
+import '../../views/carts_screens/carts_screen.dart';
+import '../../views/category_screens/category_screen.dart';
+import '../../views/home_screens/home_screen.dart';
 import 'package:get/get.dart';
 
 import '../../consts/consts.dart';
@@ -45,10 +45,6 @@ class Home extends StatelessWidget {
     ];
 
     var navbarBody = [
-      // Container(color: Colors.green),
-      // Container(color: Colors.blue),
-      // Container(color: Colors.red),
-      // Container(color: Colors.black),
       const HomeScreen(),
       const CategoryScreen(),
       const CartsScreen(),
