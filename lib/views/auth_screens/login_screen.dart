@@ -1,3 +1,8 @@
+import 'package:emart_app/consts/social_icon.dart';
+import 'package:emart_app/widgets/custom_textfield_widget.dart';
+import 'package:emart_app/widgets/our_button_widget.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
+
 import '../../consts/consts.dart';
 import '../../widgets/app_logo_widget.dart';
 import '../../widgets/bg_widget.dart';
@@ -8,6 +13,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return bgWidget(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Center(
           child: Column(
             children: [
@@ -15,12 +21,68 @@ class LoginScreen extends StatelessWidget {
               appLogoWigdet(),
               10.heightBox,
               'Log in to $appname'.text.fontFamily(bold).white.size(18).make(),
-              10.heightBox,
-              Column()
+              15.heightBox,
+              Column(
+                children: [
+                  customTextfieldWidget(
+                    title: 'Email',
+                    hint: 'email@example.com',
+                  ),
+                  customTextfieldWidget(
+                    title: 'Password',
+                    hint: '******',
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: forgetPassword.text.make(),
+                    ),
+                  ),
+                  5.heightBox,
+                  ourButton(
+                    color: redColor,
+                    title: login,
+                    textColor: whiteColor,
+                    onPressed: () {},
+                  ).box.width(context.screenWidth - 50).make(),
+                  5.heightBox,
+                  createNewAccount.text.color(fontGrey).make(),
+                  5.heightBox,
+                  ourButton(
+                    color: lightGolden,
+                    title: signup,
+                    textColor: redColor,
+                    onPressed: () {},
+                  ).box.width(context.screenWidth - 50).make(),
+                  10.heightBox,
+                  loginWith.text.color(fontGrey).make(),
+                  5.heightBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      3,
+                      (index) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundColor: lightGrey,
+                          child: Image.asset(
+                            socialIconList[index],
+                            width: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
                   .box
                   .white
                   .rounded
                   .padding(const EdgeInsets.all(16))
+                  .width(context.screenWidth - 70)
+                  .shadowSm
                   .make(),
             ],
           ),
