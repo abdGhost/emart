@@ -17,3 +17,10 @@ const loginWith = 'Login With';
 const privacyPolicy = 'Privacy Policy';
 const termAndCondition = 'Term and Condition';
 const alreadyHaveAccount = 'Already Have Account?';
+
+// Home Screen Strings
+
+const home = 'Home';
+const category = 'Category';
+const cart = 'Cart';
+const account = 'Account';
