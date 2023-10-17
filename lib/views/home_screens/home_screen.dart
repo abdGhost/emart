@@ -6,7 +6,26 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
+      padding: const EdgeInsets.all(12),
+      height: context.screenHeight,
+      width: context.screenWidth,
+      color: lightGrey,
+      child: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              color: lightGrey,
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  fillColor: whiteColor,
+                  filled: true,
+                  hintText: searchAnything,
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
