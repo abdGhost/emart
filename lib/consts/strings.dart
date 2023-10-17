@@ -34,3 +34,11 @@ const topSellers = 'Top Salesers';
 const featuredCategories = 'Featured Categories';
 const womenClothingAndFashion = 'Women Clothing & Fashion';
 const menClothingAndFashion = 'Men Clothing & Fashion';
+
+// Feature Categories String
+const womenDresses = 'Women Dresses';
+const girlWatches = 'Girls watches';
+const mobilePhone = 'Mobile Phone';
+const boysGlasses = 'Boys Glasses';
+const tShirt = 'TShirt';
+const girlsDress = ' Girl Dresses';

@@ -1,4 +1,4 @@
-import 'package:emart_app/consts/social_icon.dart';
+import 'package:emart_app/consts/icons_list.dart';
 import 'package:emart_app/views/auth_screens/signup_screen.dart';
 import 'package:emart_app/views/home_screens/home.dart';
 import 'package:emart_app/widgets/custom_textfield_widget.dart';
