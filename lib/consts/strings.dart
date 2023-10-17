@@ -44,3 +44,14 @@ const tShirt = 'TShirt';
 const girlsDress = ' Girl Dresses';
 
 const featuredProduct = 'Featured Product';
+
+// Categoires Strings
+const womenClothing = "Women Clothing";
+const menClothingFashion = "Men Clothing & Fashion";
+const computerAccess = "Computer & Accessories";
+const automobile = "Automobile";
+const kidToys = "Kids & Toys";
+const sports = "Sports";
+const jewelery = "Jewelery";
+const cellPhone = "Cellphone & Tab";
+const furniture = "Furniture";
