@@ -42,3 +42,5 @@ const mobilePhone = 'Mobile Phone';
 const boysGlasses = 'Boys Glasses';
 const tShirt = 'TShirt';
 const girlsDress = ' Girl Dresses';
+
+const featuredProduct = 'Featured Product';
