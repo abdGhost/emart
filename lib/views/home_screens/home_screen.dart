@@ -199,6 +199,73 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    20.heightBox,
+                    VxSwiper.builder(
+                      aspectRatio: 16 / 9,
+                      autoPlay: true,
+                      height: 150,
+                      enlargeCenterPage: true,
+                      itemCount: secondSliderLists.length,
+                      itemBuilder: (context, index) {
+                        return Image.asset(
+                          secondSliderLists[index],
+                          fit: BoxFit.fill,
+                        )
+                            .box
+                            .rounded
+                            .clip(Clip.antiAlias)
+                            .margin(
+                              const EdgeInsets.symmetric(
+                                horizontal: 4,
+                              ),
+                            )
+                            .make();
+                      },
+                    ),
+                    20.heightBox,
+                    // All Product Section
+                    GridView.builder(
+                        itemCount: 6,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                          mainAxisExtent: 300,
+                        ),
+                        itemBuilder: ((context, index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                imgP1,
+                                width: 200,
+                                fit: BoxFit.fill,
+                              ),
+                              const Spacer(),
+                              "Laptop 12GB/64GB"
+                                  .text
+                                  .fontFamily(semibold)
+                                  .color(darkFontGrey)
+                                  .make(),
+                              10.heightBox,
+                              "\$500"
+                                  .text
+                                  .fontFamily(bold)
+                                  .color(redColor)
+                                  .size(18)
+                                  .make()
+                            ],
+                          )
+                              .box
+                              .white
+                              .rounded
+                              .padding(const EdgeInsets.all(12))
+                              .margin(const EdgeInsets.symmetric(horizontal: 4))
+                              .make();
+                        }))
                   ],
                 ),
               ),
