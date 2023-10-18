@@ -1,5 +1,5 @@
 import '../../controllers/home_controller.dart';
-import '../../views/account_screens/account_screen.dart';
+import '../profile_screens/profile_screen.dart';
 import '../../views/carts_screens/carts_screen.dart';
 import '../../views/category_screens/category_screen.dart';
 import '../../views/home_screens/home_screen.dart';
@@ -48,7 +48,7 @@ class Home extends StatelessWidget {
       const HomeScreen(),
       const CategoryScreen(),
       const CartsScreen(),
-      const AccountScreen(),
+      const ProfileScreen(),
     ];
     return Scaffold(
       body: Column(

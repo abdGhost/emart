@@ -63,3 +63,8 @@ const sellerPolicy = "Seller Policy";
 const returnPolicy = "Return Policy";
 const supportPolicy = "Support Policy";
 const productYouMayAlsoLike = "Product You May Also Like";
+
+// Profile Screen String
+const myOrder = "My Order";
+const myWishlist = "My Wishlist";
+const message = "Messages";
