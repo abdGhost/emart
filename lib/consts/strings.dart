@@ -55,3 +55,11 @@ const sports = "Sports";
 const jewelery = "Jewelery";
 const cellPhone = "Cellphone & Tab";
 const furniture = "Furniture";
+
+// Categoreis Details String
+const video = "Video";
+const review = "Review";
+const sellerPolicy = "Seller Policy";
+const returnPolicy = "Return Policy";
+const supportPolicy = "Support Policy";
+const productYouMayAlsoLike = "Product You May Also Like";
