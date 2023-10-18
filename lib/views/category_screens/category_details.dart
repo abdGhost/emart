@@ -57,7 +57,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                     "\$500".text.fontFamily(bold).color(redColor).size(18).make()
                   ],
                 ).box.white.roundedSM.outerShadowMd.padding(const EdgeInsets.all(12)).margin(const EdgeInsets.symmetric(horizontal: 4)).make().onTap(() {
-                  Get.to(() => ItemDetailsScreen(
+                  Get.to(() => const ItemDetailsScreen(
                         titile: 'Text',
                       ));
                 });
