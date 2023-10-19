@@ -1,4 +1,5 @@
 import 'package:emart_app/consts/icons_list.dart';
+import 'package:emart_app/controllers/auth_controller/auth_controller.dart';
 import 'package:emart_app/views/auth_screens/signup_screen.dart';
 import 'package:emart_app/views/home_screens/home.dart';
 import 'package:emart_app/widgets/custom_textfield_widget.dart';
@@ -9,8 +10,19 @@ import '../../consts/consts.dart';
 import '../../widgets/app_logo_widget.dart';
 import '../../widgets/bg_widget.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  var controller = Get.put(AuthController());
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return bgWidget(
@@ -29,10 +41,12 @@ class LoginScreen extends StatelessWidget {
                   customTextfieldWidget(
                     title: 'Email',
                     hint: 'email@example.com',
+                    controller: emailController,
                   ),
                   customTextfieldWidget(
                     title: 'Password',
                     hint: '******',
+                    controller: passwordController,
                   ),
                   Align(
                     alignment: Alignment.centerRight,
@@ -46,8 +60,19 @@ class LoginScreen extends StatelessWidget {
                     color: redColor,
                     title: login,
                     textColor: whiteColor,
-                    onPressed: () {
-                      Get.to(() => const Home());
+                    onPressed: () async {
+                      await controller
+                          .login(
+                        context: context,
+                        email: emailController.text,
+                        password: passwordController.text,
+                      )
+                          .then((value) {
+                        if (value != null) {
+                          VxToast.show(context, msg: loggedIn);
+                          Get.offAll(() => const Home());
+                        }
+                      });
                     },
                   ).box.width(context.screenWidth - 50).make(),
                   5.heightBox,
@@ -84,14 +109,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
-                  .box
-                  .white
-                  .rounded
-                  .padding(const EdgeInsets.all(16))
-                  .width(context.screenWidth - 70)
-                  .shadowSm
-                  .make(),
+              ).box.white.rounded.padding(const EdgeInsets.all(16)).width(context.screenWidth - 70).shadowSm.make(),
             ],
           ),
         ),

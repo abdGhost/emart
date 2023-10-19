@@ -1,3 +1,5 @@
+import 'package:emart_app/controllers/auth_controller/auth_controller.dart';
+import 'package:emart_app/views/home_screens/home.dart';
 import 'package:get/get.dart';
 
 import '../../consts/consts.dart';
@@ -15,6 +17,14 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   bool? isCheck = false;
+  var controller = Get.put(AuthController());
+
+  // SignUp text Controllers
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController retypePasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return bgWidget(
@@ -30,18 +40,26 @@ class _SignupScreenState extends State<SignupScreen> {
               15.heightBox,
               Column(
                 children: [
-                  customTextfieldWidget(title: name, hint: nameHint),
-                  customTextfieldWidget(title: email, hint: emailHint),
-                  customTextfieldWidget(title: password, hint: passwordHint),
                   customTextfieldWidget(
-                      title: retypePassword, hint: passwordHint),
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: TextButton(
-                  //     onPressed: () {},
-                  //     child: forgetPassword.text.make(),
-                  //   ),
-                  // ),
+                    title: name,
+                    hint: nameHint,
+                    controller: nameController,
+                  ),
+                  customTextfieldWidget(
+                    title: email,
+                    hint: emailHint,
+                    controller: emailController,
+                  ),
+                  customTextfieldWidget(
+                    title: password,
+                    hint: passwordHint,
+                    controller: passwordController,
+                  ),
+                  customTextfieldWidget(
+                    title: retypePassword,
+                    hint: passwordHint,
+                    controller: retypePasswordController,
+                  ),
                   10.heightBox,
                   Row(
                     children: [
@@ -95,10 +113,34 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   10.heightBox,
                   ourButton(
-                    color: isCheck == true ? redColor : fontGrey,
+                    color: isCheck == true ? redColor : lightGrey,
                     title: signup,
                     textColor: whiteColor,
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (isCheck != false) {
+                        try {
+                          controller
+                              .signUp(
+                            context: context,
+                            email: emailController.text,
+                            password: passwordController.text,
+                          )
+                              .then((value) {
+                            return controller.storeUserData(
+                              name: nameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                          }).then((value) => {
+                                    VxToast.show(context, msg: loggedIn),
+                                    Get.offAll(() => const Home()),
+                                  });
+                        } catch (e) {
+                          firebaseAuth.signOut();
+                          VxToast.show(context, msg: e.toString());
+                        }
+                      }
+                    },
                   ).box.width(context.screenWidth - 50).make(),
                   RichText(
                     text: const TextSpan(
@@ -123,14 +165,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Get.back();
                   }),
                 ],
-              )
-                  .box
-                  .white
-                  .rounded
-                  .padding(const EdgeInsets.all(16))
-                  .width(context.screenWidth - 70)
-                  .shadowSm
-                  .make(),
+              ).box.white.rounded.padding(const EdgeInsets.all(16)).width(context.screenWidth - 70).shadowSm.make(),
             ],
           ),
         ),
