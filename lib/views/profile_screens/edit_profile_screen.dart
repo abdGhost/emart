@@ -1,6 +1,8 @@
+import 'package:emart_app/controllers/profile_controller.dart';
 import 'package:emart_app/widgets/bg_widget.dart';
 import 'package:emart_app/widgets/custom_textfield_widget.dart';
 import 'package:emart_app/widgets/our_button_widget.dart';
+import 'package:get/get.dart';
 
 import '../../consts/consts.dart';
 
@@ -9,6 +11,8 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.find<ProfileController>();
+
     return bgWidget(
       child: Scaffold(
         appBar: AppBar(),
@@ -21,7 +25,13 @@ class EditProfileScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ).box.roundedFull.clip(Clip.antiAlias).make(),
             10.heightBox,
-            ourButton(onPressed: () {}, color: whiteColor, textColor: redColor, title: 'Change '),
+            ourButton(
+                onPressed: () {
+                  controller.updateProfileImage(context);
+                },
+                color: whiteColor,
+                textColor: redColor,
+                title: 'Change '),
             const Divider(),
             20.heightBox,
             customTextfieldWidget(
