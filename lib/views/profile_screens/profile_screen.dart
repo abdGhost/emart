@@ -2,6 +2,7 @@ import 'package:emart_app/consts/icons_list.dart';
 import 'package:emart_app/controllers/auth_controller/auth_controller.dart';
 import 'package:emart_app/views/auth_screens/login_screen.dart';
 import 'package:emart_app/views/profile_screens/components/details_card.dart';
+import 'package:emart_app/views/profile_screens/edit_profile_screen.dart';
 import 'package:emart_app/widgets/bg_widget.dart';
 import 'package:get/get.dart';
 
@@ -27,7 +28,9 @@ class ProfileScreen extends StatelessWidget {
                     color: whiteColor,
                   ),
                 ),
-              ),
+              ).onTap(() {
+                Get.to(() => const EditProfileScreen());
+              }),
               //Profile Details Section
               Row(
                 children: [
