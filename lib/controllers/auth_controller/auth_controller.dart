@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
+  var isLoading = false.obs;
+
   //Login Method
   Future<UserCredential?> login({email, password, context}) async {
     UserCredential? userCredential;
@@ -40,6 +42,7 @@ class AuthController extends GetxController {
       'name': name,
       'email': email,
       'password': password,
+      'id': currentUser!.uid,
       'imageUrl': '',
     });
   }
