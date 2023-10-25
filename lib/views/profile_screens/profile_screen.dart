@@ -92,7 +92,11 @@ class ProfileScreen extends StatelessWidget {
                       width: 20,
                       fit: BoxFit.cover,
                     ),
-                    title: profileButtonList[index].text.fontFamily(semibold).color(darkFontGrey).make(),
+                    title: profileButtonList[index]
+                        .text
+                        .fontFamily(semibold)
+                        .color(darkFontGrey)
+                        .make(),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -101,7 +105,17 @@ class ProfileScreen extends StatelessWidget {
                   );
                 },
                 itemCount: profileButtonList.length,
-              ).box.white.rounded.margin(const EdgeInsets.all(8)).padding(const EdgeInsets.symmetric(horizontal: 16)).shadowSm.make().box.color(redColor).make()
+              )
+                  .box
+                  .white
+                  .rounded
+                  .margin(const EdgeInsets.all(8))
+                  .padding(const EdgeInsets.symmetric(horizontal: 16))
+                  .shadowSm
+                  .make()
+                  .box
+                  .color(redColor)
+                  .make()
             ],
           ),
         ),

@@ -10,7 +10,8 @@ class AuthController extends GetxController {
   Future<UserCredential?> login({email, password, context}) async {
     UserCredential? userCredential;
     try {
-      userCredential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      userCredential = await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
       VxToast.show(
         context,
@@ -37,13 +38,17 @@ class AuthController extends GetxController {
 
   //Create collection for storing create user data
   storeUserData({name, email, password}) {
-    DocumentReference store = firebaseFirestore.collection(userCollection).doc(currentUser!.uid);
+    DocumentReference store =
+        firebaseFirestore.collection(userCollection).doc(currentUser!.uid);
     store.set({
       'name': name,
       'email': email,
       'password': password,
       'id': currentUser!.uid,
       'imageUrl': '',
+      'cart_count': '00',
+      'total_count': '00',
+      'wishlist_count': '00',
     });
   }
 
