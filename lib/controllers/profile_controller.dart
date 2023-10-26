@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart';
 
 class ProfileController extends GetxController {
   var profileImagePath = ''.obs;
@@ -29,18 +29,18 @@ class ProfileController extends GetxController {
   }
 
   uploadProfileImage() async {
-    var filename = Path.basename(profileImagePath.value);
+    var filename = basename(profileImagePath.value);
     var destination = 'images/${currentUser!.uid}/$filename';
-    var ref = FirebaseStorage.instance.ref().child(destination);
+    Reference ref = FirebaseStorage.instance.ref().child(destination);
     await ref.putFile(File(profileImagePath.value));
 
     profileImageLink = await ref.getDownloadURL();
   }
 
-  updateProfileData({name, password, imageUrl}) {
+  updateProfileData({name, password, imageUrl}) async {
     var store =
         firebaseFirestore.collection(userCollection).doc(currentUser!.uid);
-    store.set(
+    await store.set(
       {
         'name': name,
         'password': password,
