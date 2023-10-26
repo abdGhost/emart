@@ -35,6 +35,8 @@ class ProfileScreen extends StatelessWidget {
               );
             } else {
               var data = snapshot.data!.docs[0];
+              controller.nameController.text = data['name'];
+              controller.passwordController.text = data['password'];
 
               return Scaffold(
                 body: SafeArea(

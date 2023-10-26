@@ -15,8 +15,6 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<ProfileController>();
-    controller.nameController.text = data['name'];
-    controller.passwordController.text = data['password'];
 
     return bgWidget(
       child: Scaffold(
@@ -59,12 +57,28 @@ class EditProfileScreen extends StatelessWidget {
                 20.heightBox,
                 SizedBox(
                   width: context.screenWidth - 60,
-                  child: ourButton(
-                    onPressed: () {},
-                    color: redColor,
-                    textColor: whiteColor,
-                    title: 'Save',
-                  ),
+                  child: controller.isLoading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(redColor),
+                          ),
+                        )
+                      : ourButton(
+                          onPressed: () async {
+                            controller.isLoading(true);
+                            await controller.uploadProfileImage();
+                            await controller.updateProfileData(
+                              name: controller.nameController.text,
+                              password: controller.passwordController.text,
+                              imageUrl: controller.profileImagePath.value,
+                            );
+                            // ignore: use_build_context_synchronously
+                            VxToast.show(context, msg: 'Profile Updated');
+                          },
+                          color: redColor,
+                          textColor: whiteColor,
+                          title: 'Save',
+                        ),
                 ),
               ],
             )
