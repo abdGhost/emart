@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:emart_app/controllers/profile_controller.dart';
 import 'package:emart_app/widgets/bg_widget.dart';
 import 'package:emart_app/widgets/custom_textfield_widget.dart';
@@ -7,12 +9,14 @@ import 'package:get/get.dart';
 import '../../consts/consts.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  const EditProfileScreen({super.key});
+  final dynamic data;
+  const EditProfileScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
-    // var controller = Get.find<ProfileController>();
-    var controller = Get.put(ProfileController());
+    var controller = Get.find<ProfileController>();
+    controller.nameController.text = data['name'];
+    controller.passwordController.text = data['password'];
 
     return bgWidget(
       child: Scaffold(
@@ -21,11 +25,17 @@ class EditProfileScreen extends StatelessWidget {
             () => Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset(
-                  imgProfile2,
-                  width: 100,
-                  fit: BoxFit.cover,
-                ).box.roundedFull.clip(Clip.antiAlias).make(),
+                controller.profileImagePath.isEmpty
+                    ? Image.asset(
+                        imgProfile2,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ).box.roundedFull.clip(Clip.antiAlias).make()
+                    : Image.file(
+                        File(controller.profileImagePath.value),
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ).box.roundedFull.clip(Clip.antiAlias).make(),
                 10.heightBox,
                 ourButton(
                     onPressed: () {
@@ -37,10 +47,12 @@ class EditProfileScreen extends StatelessWidget {
                 const Divider(),
                 20.heightBox,
                 customTextfieldWidget(
+                  controller: controller.nameController,
                   title: email,
                   hint: emailHint,
                 ),
                 customTextfieldWidget(
+                  controller: controller.passwordController,
                   title: password,
                   hint: passwordHint,
                 ),
