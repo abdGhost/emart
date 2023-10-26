@@ -57,7 +57,7 @@ const computerAccess = "Computer & Accessories";
 const automobile = "Automobile";
 const kidToys = "Kids & Toys";
 const sports = "Sports";
-const jewelery = "Jewelery";
+const tools = "Tools";
 const cellPhone = "Cellphone & Tab";
 const furniture = "Furniture";
 

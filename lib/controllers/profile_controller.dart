@@ -59,6 +59,7 @@ class ProfileController extends GetxController {
     await currentUser!
         .reauthenticateWithCredential(creditinal)
         .then((value) => currentUser!.updatePassword(newPassword))
+        // ignore: argument_type_not_assignable_to_error_handler
         .catchError(() {
       print('error');
     });
