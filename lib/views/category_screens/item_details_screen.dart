@@ -1,16 +1,21 @@
 import 'package:emart_app/consts/consts.dart';
 import 'package:emart_app/consts/icons_list.dart';
+import 'package:emart_app/controllers/product_controller.dart';
 import 'package:emart_app/widgets/our_button_widget.dart';
+import 'package:get/get.dart';
 
 class ItemDetailsScreen extends StatelessWidget {
   final String? titile;
+  final dynamic data;
   const ItemDetailsScreen({
     super.key,
     required this.titile,
+    required this.data,
   });
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.find<ProductController>();
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
@@ -40,30 +45,43 @@ class ItemDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   VxSwiper.builder(
-                      itemCount: 3,
+                      itemCount: data['p_images'].length,
                       // aspectRatio: 16 / 9,
                       autoPlay: true,
                       height: 350,
                       itemBuilder: (context, index) {
-                        return Image.asset(
-                          imgFc5,
+                        return Image.network(
+                          data['p_images'][index],
                           width: double.infinity,
                           fit: BoxFit.cover,
                         );
                       }),
                   10.heightBox,
-                  titile!.text.size(16).color(darkFontGrey).fontFamily(semibold).make(),
+                  "${data['p_name']}"
+                      .text
+                      .size(16)
+                      .color(darkFontGrey)
+                      .fontFamily(semibold)
+                      .make(),
                   10.heightBox,
                   VxRating(
+                    isSelectable: false,
+                    value: double.parse(data['p_rating']),
                     onRatingUpdate: ((value) {}),
                     count: 5,
                     normalColor: textfieldGrey,
                     selectionColor: golden,
                     size: 25,
-                    stepInt: true,
+                    // stepInt: true,
                   ),
                   10.heightBox,
-                  '\$30,000'.text.fontFamily(bold).size(18).color(redColor).make(),
+                  "${data['p_price']}"
+                      .numCurrency
+                      .text
+                      .fontFamily(bold)
+                      .size(18)
+                      .color(redColor)
+                      .make(),
                   10.heightBox,
                   Row(
                     children: [
@@ -72,9 +90,17 @@ class ItemDetailsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            'Seller'.text.white.fontFamily(semibold).make(),
+                            "${data['p_seller']}"
+                                .text
+                                .white
+                                .fontFamily(semibold)
+                                .make(),
                             5.heightBox,
-                            'In House Brand'.text.color(darkFontGrey).fontFamily(semibold).make(),
+                            'In House Brand'
+                                .text
+                                .color(darkFontGrey)
+                                .fontFamily(semibold)
+                                .make(),
                           ],
                         ),
                       ),
@@ -85,67 +111,122 @@ class ItemDetailsScreen extends StatelessWidget {
                         ),
                       )
                     ],
-                  ).box.height(70).color(textfieldGrey).padding(const EdgeInsets.symmetric(horizontal: 12)).make(),
+                  )
+                      .box
+                      .height(70)
+                      .color(textfieldGrey)
+                      .padding(const EdgeInsets.symmetric(horizontal: 12))
+                      .make(),
                   20.heightBox,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            child: 'Color: '.text.color(fontGrey).make(),
-                          ),
-                          Row(
-                            children: List.generate(3, (index) {
-                              return VxBox().size(40, 40).color(Vx.randomPrimaryColor).roundedFull.margin(const EdgeInsets.symmetric(horizontal: 4)).make();
-                            }),
-                          )
-                        ],
-                      ).box.padding(const EdgeInsets.all(8)).make(),
-                      20.heightBox,
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            child: 'Quantity: '.text.color(fontGrey).make(),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.remove,
+                  Obx(
+                    () => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              child: 'Color: '.text.color(fontGrey).make(),
                             ),
-                          ),
-                          "0".text.color(darkFontGrey).size(16).fontFamily(bold).make(),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.add,
+                            Row(
+                              children: List.generate(
+                                data['p_color'].length,
+                                (index) {
+                                  return Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      VxBox()
+                                          .size(40, 40)
+                                          .color(Color(data['p_color'][index])
+                                              .withOpacity(1))
+                                          .roundedFull
+                                          .margin(const EdgeInsets.symmetric(
+                                              horizontal: 4))
+                                          .make()
+                                          .onTap(() {
+                                        controller.changeColorIndex(index);
+                                      }),
+                                      Visibility(
+                                        visible: index ==
+                                            controller.colorIndex.value,
+                                        child: const Icon(
+                                          Icons.done,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        ).box.padding(const EdgeInsets.all(8)).make(),
+                        20.heightBox,
+                        Obx(
+                          () => Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: 'Quantity: '.text.color(fontGrey).make(),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.remove,
+                                ),
+                              ),
+                              controller.quantity.value.text
+                                  .color(darkFontGrey)
+                                  .size(16)
+                                  .fontFamily(bold)
+                                  .make(),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.add,
+                                ),
+                              ),
+                              10.widthBox,
+                              '(${data['p_quantity']} available)'
+                                  .text
+                                  .color(textfieldGrey)
+                                  .make(),
+                            ],
+                          ).box.padding(const EdgeInsets.all(8)).make(),
+                        ),
+                        10.heightBox,
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 100,
+                              child: 'Total: '.text.color(fontGrey).make(),
                             ),
-                          ),
-                          10.widthBox,
-                          '(0 available)'.text.color(textfieldGrey).make(),
-                        ],
-                      ).box.padding(const EdgeInsets.all(8)).make(),
-                      10.heightBox,
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 100,
-                            child: 'Total: '.text.color(fontGrey).make(),
-                          ),
-                          '\$0.00'.text.size(16).fontFamily(bold).color(redColor).make()
-                        ],
-                      ).box.padding(const EdgeInsets.all(8)).make(),
-                    ],
-                  ).box.white.shadowSm.make(),
-
+                            '\$0.00'
+                                .text
+                                .size(16)
+                                .fontFamily(bold)
+                                .color(redColor)
+                                .make()
+                          ],
+                        ).box.padding(const EdgeInsets.all(8)).make(),
+                      ],
+                    ).box.white.shadowSm.make(),
+                  ),
                   //Description Section
                   10.heightBox,
-                  'Description '.text.fontFamily(semibold).size(16).color(darkFontGrey).make(),
+                  'Description '
+                      .text
+                      .fontFamily(semibold)
+                      .size(16)
+                      .color(darkFontGrey)
+                      .make(),
                   10.heightBox,
-                  'This is dummy desciption This is dummy desciptionThis is dummy desciptionThis is dummy desciption'.text.fontFamily(semibold).color(darkFontGrey).make(),
+                  '${data['p_description']}'
+                      .text
+                      .fontFamily(semibold)
+                      .color(darkFontGrey)
+                      .make(),
                   10.heightBox,
                   ListView(
                     shrinkWrap: true,
@@ -154,7 +235,12 @@ class ItemDetailsScreen extends StatelessWidget {
                       itemsDetailsButtonList.length,
                       (index) {
                         return ListTile(
-                          title: itemsDetailsButtonList[index].text.fontFamily(semibold).size(16).color(darkFontGrey).make(),
+                          title: itemsDetailsButtonList[index]
+                              .text
+                              .fontFamily(semibold)
+                              .size(16)
+                              .color(darkFontGrey)
+                              .make(),
                           trailing: const Icon(
                             Icons.arrow_forward,
                             color: darkFontGrey,
@@ -164,7 +250,11 @@ class ItemDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   20.heightBox,
-                  productYouMayAlsoLike.text.color(darkFontGrey).fontFamily(semibold).size(16).make(),
+                  productYouMayAlsoLike.text
+                      .color(darkFontGrey)
+                      .fontFamily(semibold)
+                      .size(16)
+                      .make(),
                   10.heightBox,
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -180,11 +270,27 @@ class ItemDetailsScreen extends StatelessWidget {
                                     fit: BoxFit.fill,
                                   ),
                                   10.heightBox,
-                                  "Laptop 12GB/64GB".text.fontFamily(semibold).color(darkFontGrey).make(),
+                                  "Laptop 12GB/64GB"
+                                      .text
+                                      .fontFamily(semibold)
+                                      .color(darkFontGrey)
+                                      .make(),
                                   10.heightBox,
-                                  "\$500".text.fontFamily(bold).color(redColor).size(18).make()
+                                  "\$500"
+                                      .text
+                                      .fontFamily(bold)
+                                      .color(redColor)
+                                      .size(18)
+                                      .make()
                                 ],
-                              ).box.white.rounded.padding(const EdgeInsets.all(8)).margin(const EdgeInsets.symmetric(horizontal: 4)).make()),
+                              )
+                                  .box
+                                  .white
+                                  .rounded
+                                  .padding(const EdgeInsets.all(8))
+                                  .margin(
+                                      const EdgeInsets.symmetric(horizontal: 4))
+                                  .make()),
                     ),
                   )
                 ],

@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import '../models/category_model.dart';
 
 class ProductController extends GetxController {
+  var quantity = 0.obs;
   var storeData = [];
+  var colorIndex = 0.obs;
   getProductData(title) async {
     storeData.clear();
     var data = await rootBundle.loadString('lib/services/category_model.json');
@@ -15,5 +17,9 @@ class ProductController extends GetxController {
     for (var e in s[0].subCategory) {
       storeData.add(e);
     }
+  }
+
+  changeColorIndex(index) {
+    colorIndex.value = index;
   }
 }
