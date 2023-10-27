@@ -33,7 +33,7 @@ class CategoryModelList {
 
 class Category {
   String name;
-  List<SubCategory> subCategory;
+  List<String> subCategory;
 
   Category({
     required this.name,
@@ -42,25 +42,11 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         name: json["name"],
-        subCategory: List<SubCategory>.from(json["subCategory"].map((x) => x)),
+        subCategory: List<String>.from(json["subCategory"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "subCategory": List<dynamic>.from(subCategory.map((x) => x)),
-      };
-}
-
-class SubCategory {
-  String name;
-  SubCategory({
-    required this.name,
-  });
-  factory SubCategory.fromJson(Map<String, dynamic> json) => SubCategory(
-        name: json['name'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
+        "subCategory": List<String>.from(subCategory.map((x) => x)),
       };
 }
