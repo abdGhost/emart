@@ -8,3 +8,5 @@ User? currentUser = firebaseAuth.currentUser;
 
 //Collections
 const userCollection = 'users';
+const productCollection = 'products';
+const cartCollection = 'cart';

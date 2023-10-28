@@ -1,3 +1,4 @@
+import 'package:emart_app/consts/consts.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
@@ -43,5 +44,25 @@ class ProductController extends GetxController {
 
   calculateTotalPrice(price) {
     totalPrice.value = price * quantity.value;
+  }
+
+  addToCart(
+      {titile, image, sellerName, color, quantity, totalPrice, context}) async {
+    await firebaseFirestore.collection(cartCollection).doc().set({
+      'titile': titile,
+      'image': image,
+      'sellerName': sellerName,
+      'color': color,
+      'quantity': quantity,
+      'totalPrice': totalPrice,
+    }).catchError((e) {
+      VxToast.show(context, msg: e.toString());
+    });
+  }
+
+  resetProductValue() {
+    totalPrice.value = 0;
+    quantity.value = 0;
+    colorIndex.value = 0;
   }
 }
