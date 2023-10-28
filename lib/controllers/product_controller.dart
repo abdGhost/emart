@@ -6,7 +6,13 @@ import '../models/category_model.dart';
 class ProductController extends GetxController {
   var quantity = 0.obs;
   var storeData = [];
+
+  //For Selecting the Color
   var colorIndex = 0.obs;
+
+  var totalPrice = 0.obs;
+
+  //Get All Product Details
   getProductData(title) async {
     storeData.clear();
     var data = await rootBundle.loadString('lib/services/category_model.json');
@@ -21,5 +27,21 @@ class ProductController extends GetxController {
 
   changeColorIndex(index) {
     colorIndex.value = index;
+  }
+
+  increaseQuantity(totalQuantity) {
+    if (quantity.value < totalQuantity) {
+      quantity.value++;
+    }
+  }
+
+  decreaseQuantity() {
+    if (quantity.value > 0) {
+      quantity.value--;
+    }
+  }
+
+  calculateTotalPrice(price) {
+    totalPrice.value = price * quantity.value;
   }
 }
