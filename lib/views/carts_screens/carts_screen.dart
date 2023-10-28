@@ -6,11 +6,29 @@ class CartsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        color: Colors.white,
-        child: "Cart is Empty".text.fontFamily(semibold).color(darkFontGrey).makeCentered(),
-      ),
-    );
+        backgroundColor: whiteColor,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: "Shopping Cart"
+              .text
+              .color(darkFontGrey)
+              .fontFamily(semibold)
+              .make(),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(color: redColor),
+              ),
+              Row(
+                children: [
+                  "Total Price".text.make(),
+                ],
+              ).box.color(fontGrey).make()
+            ],
+          ),
+        ));
   }
 }
