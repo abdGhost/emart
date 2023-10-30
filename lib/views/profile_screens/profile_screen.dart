@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart_app/consts/icons_list.dart';
 import 'package:emart_app/controllers/auth_controller/auth_controller.dart';
+import 'package:emart_app/controllers/profile_controller.dart';
+import 'package:emart_app/services/firestore_services.dart';
 import 'package:emart_app/views/auth_screens/login_screen.dart';
-import 'package:emart_app/views/profile_screens/components/details_card.dart';
+import 'package:emart_app/widgets/details_card.dart';
 import 'package:emart_app/views/profile_screens/edit_profile_screen.dart';
 import 'package:emart_app/widgets/bg_widget.dart';
 import 'package:get/get.dart';
@@ -13,99 +16,121 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(ProfileController());
+
     return bgWidget(
       child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              //Edit Profile Section
-              const Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.all(1.0),
-                  child: Icon(
-                    Icons.edit,
-                    color: whiteColor,
-                  ),
-                ),
-              ).onTap(() {
-                Get.to(() => const EditProfileScreen());
-              }),
-              //Profile Details Section
-              Row(
-                children: [
-                  Image.asset(
-                    imgProfile2,
-                    width: 100,
-                    fit: BoxFit.cover,
-                  ).box.roundedFull.clip(Clip.antiAlias).make(),
-                  10.widthBox,
-                  Expanded(
+          body: StreamBuilder(
+              stream: FirestoreServices.getUserData(currentUser!.uid),
+              builder: ((context, AsyncSnapshot<QuerySnapshot?> snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(redColor),
+                    ),
+                  );
+                } else {
+                  var data = snapshot.data!.docs[0];
+                  return SafeArea(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        "Dummy User".text.white.fontFamily(semibold).make(),
-                        "test@gmail.com".text.white.make(),
+                        //Edit Profile Section
+                        const Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: EdgeInsets.all(1.0),
+                            child: Icon(
+                              Icons.edit,
+                              color: whiteColor,
+                            ),
+                          ),
+                        ).onTap(() {
+                          controller.emailController.text = data['name'];
+                          controller.passwordController.text = data['password'];
+                          Get.to(() => EditProfileScreen(data: data));
+                        }),
+                        //Profile Details Section
+                        Row(
+                          children: [
+                            data['image_url'] == ''
+                                ? Image.asset(
+                                    imgProfile2,
+                                    width: 100,
+                                    fit: BoxFit.cover,
+                                  ).box.roundedFull.clip(Clip.antiAlias).make()
+                                : Image.network(
+                                    data['image_url'],
+                                    width: 80,
+                                    fit: BoxFit.cover,
+                                  ).box.roundedFull.clip(Clip.antiAlias).make(),
+                            10.widthBox,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  '${data['name']}'.text.white.fontFamily(semibold).make(),
+                                  '${data['email']}'.text.white.make(),
+                                ],
+                              ),
+                            ),
+                            OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                side: const BorderSide(color: whiteColor),
+                              ),
+                              onPressed: () async {
+                                await Get.put(AuthController()).signOutMethod();
+                                Get.offAll(() => const LoginScreen());
+                              },
+                              child: "Logout".text.white.fontFamily(semibold).make(),
+                            ),
+                          ],
+                        ),
+                        10.heightBox,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            detialsCard(
+                              width: context.screenWidth / 3.4,
+                              count: data['cart_count'],
+                              title: "in your cart",
+                            ),
+                            detialsCard(
+                              width: context.screenWidth / 3.4,
+                              count: data['wishlist_count'],
+                              title: "in your wishlist",
+                            ),
+                            detialsCard(
+                              width: context.screenWidth / 3.4,
+                              count: data['order_count'],
+                              title: "your orders",
+                            ),
+                          ],
+                        ),
+                        10.heightBox,
+                        ListView.separated(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: Image.asset(
+                                profileButtonImages[index],
+                                width: 20,
+                                fit: BoxFit.cover,
+                              ),
+                              title: profileButtonList[index].text.fontFamily(semibold).color(darkFontGrey).make(),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider(
+                              color: darkFontGrey,
+                            );
+                          },
+                          itemCount: profileButtonList.length,
+                        ).box.white.rounded.margin(const EdgeInsets.all(8)).padding(const EdgeInsets.symmetric(horizontal: 16)).shadowSm.make().box.color(redColor).make()
                       ],
                     ),
-                  ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: whiteColor),
-                    ),
-                    onPressed: () async {
-                      await Get.put(AuthController()).signOutMethod();
-                      Get.offAll(() => const LoginScreen());
-                    },
-                    child: "Logout".text.white.fontFamily(semibold).make(),
-                  ),
-                ],
-              ),
-              10.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  detialsCard(
-                    width: context.screenWidth / 3.4,
-                    count: "00",
-                    title: "in your cart",
-                  ),
-                  detialsCard(
-                    width: context.screenWidth / 3.4,
-                    count: "00",
-                    title: "in your wishlist",
-                  ),
-                  detialsCard(
-                    width: context.screenWidth / 3.4,
-                    count: "00",
-                    title: "your orders",
-                  ),
-                ],
-              ),
-              10.heightBox,
-              ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: Image.asset(
-                      profileButtonImages[index],
-                      width: 20,
-                      fit: BoxFit.cover,
-                    ),
-                    title: profileButtonList[index].text.fontFamily(semibold).color(darkFontGrey).make(),
                   );
-                },
-                separatorBuilder: (context, index) {
-                  return const Divider(
-                    color: darkFontGrey,
-                  );
-                },
-                itemCount: profileButtonList.length,
-              ).box.white.rounded.margin(const EdgeInsets.all(8)).padding(const EdgeInsets.symmetric(horizontal: 16)).shadowSm.make().box.color(redColor).make()
-            ],
-          ),
-        ),
-      ),
+                }
+              }))),
     );
   }
 }

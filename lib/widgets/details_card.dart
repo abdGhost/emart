@@ -1,4 +1,4 @@
-import '../../../consts/consts.dart';
+import '../consts/consts.dart';
 
 Widget detialsCard({width, String? count, String? title}) {
   return Column(
