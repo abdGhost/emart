@@ -71,7 +71,6 @@ class CartsScreen extends StatelessWidget {
                             Icons.delete,
                             color: redColor,
                           ).onTap(() {
-                            print(data[index].id);
                             FirestoreServices.deleteFromCart(data[index].id);
                           }),
                         );

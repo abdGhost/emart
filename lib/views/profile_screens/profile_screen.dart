@@ -24,7 +24,6 @@ class ProfileScreen extends StatelessWidget {
           stream: FirestoreServices.getUser(currentUser!.uid),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            print(currentUser!.uid);
             if (!snapshot.hasData) {
               return const Center(
                 child: CircularProgressIndicator(
