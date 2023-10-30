@@ -55,17 +55,25 @@ class CartsScreen extends StatelessWidget {
                           leading: Image.network(
                             '${data[index]['image']}',
                           ),
-                          title: '${data[index]['titile']}'
-                              .text
-                              .fontFamily(semibold)
-                              .size(16)
-                              .make(),
+                          title:
+                              '${data[index]['titile']} (${data[index]['quantity']})'
+                                  .text
+                                  .fontFamily(semibold)
+                                  .size(16)
+                                  .make(),
                           subtitle: '${data[index]['totalPrice']}'
                               .numCurrency
                               .text
                               .fontFamily(semibold)
                               .color(redColor)
                               .make(),
+                          trailing: const Icon(
+                            Icons.delete,
+                            color: redColor,
+                          ).onTap(() {
+                            print(data[index].id);
+                            FirestoreServices.deleteFromCart(data[index].id);
+                          }),
                         );
                       },
                     ),

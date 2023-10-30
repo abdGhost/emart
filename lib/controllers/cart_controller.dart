@@ -4,8 +4,10 @@ class CartController extends GetxController {
   var totalPrice = 0.obs;
 
   calculateTotalPrice(data) {
+    totalPrice.value = 0;
     for (var i = 0; i < data.length; i++) {
-      totalPrice = totalPrice + int.parse(data[i]['totalPrice'].toString());
+      totalPrice.value =
+          totalPrice.value + int.parse(data[i]['totalPrice'].toString());
     }
   }
 }

@@ -21,4 +21,8 @@ class FirestoreServices {
         .where('id', isEqualTo: uid)
         .snapshots();
   }
+
+  static deleteFromCart(docId) {
+    return firebaseFirestore.collection(cartCollection).doc(docId).delete();
+  }
 }
