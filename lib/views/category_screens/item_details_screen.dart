@@ -4,6 +4,8 @@ import 'package:emart_app/controllers/product_controller.dart';
 import 'package:emart_app/widgets/our_button_widget.dart';
 import 'package:get/get.dart';
 
+import '../chat_screens/chat_screen.dart';
+
 class ItemDetailsScreen extends StatelessWidget {
   final String? titile;
   final dynamic data;
@@ -125,7 +127,9 @@ class ItemDetailsScreen extends StatelessWidget {
                           child: Icon(
                             Icons.message_outlined,
                           ),
-                        )
+                        ).onTap(() {
+                          Get.to(const ChatScreen());
+                        })
                       ],
                     )
                         .box
