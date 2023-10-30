@@ -1,3 +1,5 @@
+import 'package:emart_app/widgets/exit_dialog.dart';
+
 import '../../controllers/home_controller.dart';
 import '../profile_screens/profile_screen.dart';
 import '../../views/carts_screens/carts_screen.dart';
@@ -50,28 +52,38 @@ class Home extends StatelessWidget {
       const CartsScreen(),
       const ProfileScreen(),
     ];
-    return Scaffold(
-      body: Column(
-        children: [
-          Obx((() => Expanded(
-                child: navbarBody.elementAt(controller.currentNavIndex.value),
-              )))
-        ],
-      ),
-      bottomNavigationBar: Obx(
-        (() => BottomNavigationBar(
-              currentIndex: controller.currentNavIndex.value,
-              type: BottomNavigationBarType.fixed,
-              items: navbarItems,
-              selectedItemColor: redColor,
-              backgroundColor: whiteColor,
-              selectedLabelStyle: const TextStyle(
-                fontFamily: bold,
-              ),
-              onTap: (value) {
-                controller.currentNavIndex.value = value;
-              },
-            )),
+    return WillPopScope(
+      onWillPop: () async {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => exitDialog(context),
+        );
+        return false;
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            Obx((() => Expanded(
+                  child: navbarBody.elementAt(controller.currentNavIndex.value),
+                )))
+          ],
+        ),
+        bottomNavigationBar: Obx(
+          (() => BottomNavigationBar(
+                currentIndex: controller.currentNavIndex.value,
+                type: BottomNavigationBarType.fixed,
+                items: navbarItems,
+                selectedItemColor: redColor,
+                backgroundColor: whiteColor,
+                selectedLabelStyle: const TextStyle(
+                  fontFamily: bold,
+                ),
+                onTap: (value) {
+                  controller.currentNavIndex.value = value;
+                },
+              )),
+        ),
       ),
     );
   }

@@ -5,6 +5,9 @@ const credits = "Ghost";
 const email = 'Email';
 const emailHint = 'email@gmail.com';
 const password = 'Password';
+const oldPassword = 'Old Password';
+const newPassword = 'New Password';
+
 const passwordHint = '*******';
 const retypePassword = 'ReType Password';
 const name = 'Name';
@@ -54,7 +57,7 @@ const computerAccess = "Computer & Accessories";
 const automobile = "Automobile";
 const kidToys = "Kids & Toys";
 const sports = "Sports";
-const jewelery = "Jewelery";
+const tools = "Tools";
 const cellPhone = "Cellphone & Tab";
 const furniture = "Furniture";
 

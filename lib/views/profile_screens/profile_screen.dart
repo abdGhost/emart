@@ -17,120 +17,126 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ProfileController());
+    // print(FirestoreServices.getUser(currentUser!.uid));
 
     return bgWidget(
-      child: Scaffold(
-          body: StreamBuilder(
-              stream: FirestoreServices.getUserData(currentUser!.uid),
-              builder: ((context, AsyncSnapshot<QuerySnapshot?> snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(redColor),
-                    ),
-                  );
-                } else {
-                  var data = snapshot.data!.docs[0];
-                  return SafeArea(
-                    child: Column(
-                      children: [
-                        //Edit Profile Section
-                        const Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: EdgeInsets.all(1.0),
-                            child: Icon(
-                              Icons.edit,
-                              color: whiteColor,
+      child: StreamBuilder(
+          stream: FirestoreServices.getUser(currentUser!.uid),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(
+                    redColor,
+                  ),
+                ),
+              );
+            } else {
+              var data = snapshot.data!.docs[0];
+              controller.nameController.text = data['name'];
+
+              return Scaffold(
+                body: SafeArea(
+                  child: Column(
+                    children: [
+                      //Edit Profile Section
+                      const Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: EdgeInsets.all(1.0),
+                          child: Icon(
+                            Icons.edit,
+                            color: whiteColor,
+                          ),
+                        ),
+                      ).onTap(() {
+                        Get.to(() => EditProfileScreen(
+                              data: data,
+                            ));
+                      }),
+                      //Profile Details Section
+                      Row(
+                        children: [
+                          data['imageUrl'] == ''
+                              ? Image.asset(
+                                  imgProfile2,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                ).box.roundedFull.clip(Clip.antiAlias).make()
+                              : Image.network(
+                                  data['imageUrl'],
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                ).box.roundedFull.clip(Clip.antiAlias).make(),
+                          10.widthBox,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                "${data['name']}".text.white.fontFamily(semibold).make(),
+                                "${data['email']}".text.white.make(),
+                              ],
                             ),
                           ),
-                        ).onTap(() {
-                          controller.emailController.text = data['name'];
-                          controller.passwordController.text = data['password'];
-                          Get.to(() => EditProfileScreen(data: data));
-                        }),
-                        //Profile Details Section
-                        Row(
-                          children: [
-                            data['image_url'] == ''
-                                ? Image.asset(
-                                    imgProfile2,
-                                    width: 100,
-                                    fit: BoxFit.cover,
-                                  ).box.roundedFull.clip(Clip.antiAlias).make()
-                                : Image.network(
-                                    data['image_url'],
-                                    width: 80,
-                                    fit: BoxFit.cover,
-                                  ).box.roundedFull.clip(Clip.antiAlias).make(),
-                            10.widthBox,
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  '${data['name']}'.text.white.fontFamily(semibold).make(),
-                                  '${data['email']}'.text.white.make(),
-                                ],
-                              ),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(color: whiteColor),
                             ),
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: whiteColor),
-                              ),
-                              onPressed: () async {
-                                await Get.put(AuthController()).signOutMethod();
-                                Get.offAll(() => const LoginScreen());
-                              },
-                              child: "Logout".text.white.fontFamily(semibold).make(),
+                            onPressed: () async {
+                              await Get.put(AuthController()).signOutMethod();
+                              Get.offAll(() => const LoginScreen());
+                            },
+                            child: "Logout".text.white.fontFamily(semibold).make(),
+                          ),
+                        ],
+                      ),
+                      10.heightBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          detialsCard(
+                            width: context.screenWidth / 3.4,
+                            count: "${data['cart_count']}",
+                            title: "in your cart",
+                          ),
+                          detialsCard(
+                            width: context.screenWidth / 3.4,
+                            count: "${data['wishlist_count']}",
+                            title: "in wishlist",
+                          ),
+                          detialsCard(
+                            width: context.screenWidth / 3.4,
+                            count: "${data['total_count']}",
+                            title: "your orders",
+                          ),
+                        ],
+                      ),
+                      10.heightBox,
+                      ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: Image.asset(
+                              profileButtonImages[index],
+                              width: 20,
+                              fit: BoxFit.cover,
                             ),
-                          ],
-                        ),
-                        10.heightBox,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            detialsCard(
-                              width: context.screenWidth / 3.4,
-                              count: data['cart_count'],
-                              title: "in your cart",
-                            ),
-                            detialsCard(
-                              width: context.screenWidth / 3.4,
-                              count: data['wishlist_count'],
-                              title: "in your wishlist",
-                            ),
-                            detialsCard(
-                              width: context.screenWidth / 3.4,
-                              count: data['order_count'],
-                              title: "your orders",
-                            ),
-                          ],
-                        ),
-                        10.heightBox,
-                        ListView.separated(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Image.asset(
-                                profileButtonImages[index],
-                                width: 20,
-                                fit: BoxFit.cover,
-                              ),
-                              title: profileButtonList[index].text.fontFamily(semibold).color(darkFontGrey).make(),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const Divider(
-                              color: darkFontGrey,
-                            );
-                          },
-                          itemCount: profileButtonList.length,
-                        ).box.white.rounded.margin(const EdgeInsets.all(8)).padding(const EdgeInsets.symmetric(horizontal: 16)).shadowSm.make().box.color(redColor).make()
-                      ],
-                    ),
-                  );
-                }
-              }))),
+                            title: profileButtonList[index].text.fontFamily(semibold).color(darkFontGrey).make(),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider(
+                            color: darkFontGrey,
+                          );
+                        },
+                        itemCount: profileButtonList.length,
+                      ).box.white.rounded.margin(const EdgeInsets.all(8)).padding(const EdgeInsets.symmetric(horizontal: 16)).shadowSm.make().box.color(redColor).make()
+                    ],
+                  ),
+                ),
+              );
+            }
+          }),
     );
   }
 }

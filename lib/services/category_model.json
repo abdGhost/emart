@@ -1,0 +1,68 @@
+{
+    "category" : [
+       {
+        "name":"Men Clothing & Fashion",
+        "subCategory": [
+            "Shirt",
+            "Pant"
+        ]
+       },
+       {
+        "name":"Computer & Accessories",
+        "subCategory": [
+            "Laptop",
+            "Pc"
+        ]
+       },
+       {
+        "name":"Automobile",
+        "subCategory": [
+            "Laptop",
+            "Pc"
+        ]
+       },
+       {
+        "name":"Kids & Toys",
+        "subCategory": [
+            "Laptop",
+            "Pc"
+        ]
+       },
+       {
+        "name":"Sports",
+        "subCategory": [
+            "Laptop",
+            "Pc"
+        ]
+       },
+       {
+        "name":"Cellphone & Tab",
+        "subCategory": [
+            "Laptop",
+            "Pc"
+        ]
+       },
+       {
+        "name":"Women Clothing",
+        "subCategory": [
+            "Laptop",
+            "Pc"
+        ]
+       },
+       {
+        "name":"Tools",
+        "subCategory": [
+            "Laptop",
+            "Pc"
+        ]
+       },
+       {
+        "name":"Furniture",
+        "subCategory": [
+            "Laptop",
+            "Pc"
+        ]
+       }
+
+    ]
+}

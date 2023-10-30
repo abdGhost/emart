@@ -10,10 +10,7 @@ import '../../consts/consts.dart';
 
 class EditProfileScreen extends StatelessWidget {
   final dynamic data;
-  const EditProfileScreen({
-    super.key,
-    this.data,
-  });
+  const EditProfileScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -23,76 +20,99 @@ class EditProfileScreen extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(),
           body: Obx(
-            () => Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                data['image_url'] == '' && controller.profileImagePath.isEmpty
-                    ? Image.asset(
-                        imgProfile2,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      ).box.roundedFull.clip(Clip.antiAlias).make()
-                    : data['image_url'] != '' && controller.profileImagePath.isEmpty
-                        ? Image.network(
-                            data['image_url'],
-                            width: 100,
-                            fit: BoxFit.cover,
-                          ).box.roundedFull.clip(Clip.antiAlias).make()
-                        : Image.file(
-                            File(
-                              controller.profileImagePath.value,
+            () => SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  data['imageUrl'] == '' && controller.profileImagePath.isEmpty
+                      ? Image.asset(
+                          imgProfile2,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ).box.roundedFull.clip(Clip.antiAlias).make()
+                      : data['imageUrl'] != '' && controller.profileImageLink.isEmpty
+                          ? Image.network(
+                              data['imageUrl'],
+                              width: 100,
+                              fit: BoxFit.cover,
+                            ).box.roundedFull.clip(Clip.antiAlias).make()
+                          : Image.file(
+                              File(controller.profileImagePath.value),
+                              width: 100,
+                              fit: BoxFit.cover,
+                            ).box.roundedFull.clip(Clip.antiAlias).make(),
+                  10.heightBox,
+                  ourButton(
+                      onPressed: () {
+                        controller.updateProfileImage(context);
+                      },
+                      color: whiteColor,
+                      textColor: redColor,
+                      title: 'Change '),
+                  const Divider(),
+                  10.heightBox,
+                  customTextfieldWidget(
+                    controller: controller.nameController,
+                    title: email,
+                    hint: emailHint,
+                  ),
+                  10.heightBox,
+                  customTextfieldWidget(
+                    controller: controller.oldPasswordController,
+                    title: oldPassword,
+                    hint: passwordHint,
+                  ),
+                  10.heightBox,
+                  customTextfieldWidget(
+                    controller: controller.newPasswordController,
+                    title: newPassword,
+                    hint: passwordHint,
+                  ),
+                  10.heightBox,
+                  SizedBox(
+                    width: context.screenWidth - 60,
+                    child: controller.isLoading.value
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(redColor),
                             ),
-                            width: 100,
-                            fit: BoxFit.cover,
-                          ).box.roundedFull.clip(Clip.antiAlias).make(),
-                10.heightBox,
-                ourButton(
-                    onPressed: () {
-                      controller.updateProfileImage(context);
-                    },
-                    color: whiteColor,
-                    textColor: redColor,
-                    title: 'Change '),
-                const Divider(),
-                20.heightBox,
-                customTextfieldWidget(
-                  controller: controller.emailController,
-                  title: email,
-                  hint: emailHint,
-                ),
-                customTextfieldWidget(
-                  controller: controller.passwordController,
-                  title: password,
-                  hint: passwordHint,
-                ),
-                20.heightBox,
-                SizedBox(
-                  width: context.screenWidth - 60,
-                  child: controller.isLoading.value
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(redColor),
+                          )
+                        : ourButton(
+                            onPressed: () async {
+                              controller.isLoading(true);
+                              if (controller.profileImagePath.value.isNotEmpty) {
+                                await controller.uploadProfileImage();
+                              } else {
+                                controller.profileImageLink = data['imageUrl'];
+                              }
+
+                              if (data['password'] == controller.oldPasswordController.text) {
+                                await controller.changeAuthProfile(
+                                  email: data['email'],
+                                  password: controller.oldPasswordController.text,
+                                  newPassword: controller.newPasswordController.text,
+                                );
+                                await controller.updateProfileData(
+                                  name: controller.nameController.text,
+                                  password: controller.newPasswordController.text,
+                                  imageUrl: controller.profileImagePath.value,
+                                );
+                                // ignore: use_build_context_synchronously
+                                VxToast.show(context, msg: 'Profile Updated');
+                              } else {
+                                // ignore: use_build_context_synchronously
+                                VxToast.show(context, msg: 'Wrong Old Password');
+                                controller.isLoading(false);
+                              }
+                            },
+                            color: redColor,
+                            textColor: whiteColor,
+                            title: 'Save',
                           ),
-                        )
-                      : ourButton(
-                          onPressed: () async {
-                            controller.isLoading(true);
-                            await controller.uploadProfileImage();
-                            await controller.updateProfileData(
-                              email: controller.emailController.text,
-                              password: controller.passwordController.text,
-                              imageUrl: controller.profielImageLink,
-                            );
-                            // ignore: use_build_context_synchronously
-                            VxToast.show(context, msg: "Updated");
-                          },
-                          color: redColor,
-                          textColor: whiteColor,
-                          title: 'Save',
-                        ),
-                ),
-              ],
-            ).box.white.rounded.shadowSm.padding(const EdgeInsets.all(16)).margin(const EdgeInsets.only(top: 20, left: 12, right: 12)).make(),
+                  ),
+                ],
+              ).box.white.rounded.shadowSm.padding(const EdgeInsets.all(16)).margin(const EdgeInsets.only(top: 20, left: 12, right: 12)).make(),
+            ),
           )),
     );
   }

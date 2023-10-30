@@ -27,14 +27,14 @@ const featuredTitles1 = [womenDresses, girlWatches, girlsDress];
 const featuredTitles2 = [boysGlasses, tShirt, mobilePhone];
 
 const categoriesLists = [
-  womenClothing,
   menClothingFashion,
   computerAccess,
   automobile,
   kidToys,
-  jewelery,
   sports,
   cellPhone,
+  womenClothing,
+  tools,
   furniture,
 ];
 

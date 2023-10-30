@@ -2,23 +2,25 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart_app/consts/consts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart';
 
 class ProfileController extends GetxController {
   var profileImagePath = ''.obs;
-  var profielImageLink = '';
+  var profileImageLink = '';
   var isLoading = false.obs;
 
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
+  var nameController = TextEditingController();
+  var oldPasswordController = TextEditingController();
+  var newPasswordController = TextEditingController();
 
   updateProfileImage(context) async {
     try {
-      final profileImage = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 70);
+      final profileImage = await ImagePicker().pickImage(source: ImageSource.camera);
       if (profileImage == null) return;
 
       profileImagePath.value = profileImage.path;
@@ -28,26 +30,31 @@ class ProfileController extends GetxController {
   }
 
   uploadProfileImage() async {
-    var filename = p.basename(profileImagePath.value);
-    var destination = 'images/ ${currentUser!.uid}/$filename';
+    var filename = basename(profileImagePath.value);
+    var destination = 'images/${currentUser!.uid}/$filename';
     Reference ref = FirebaseStorage.instance.ref().child(destination);
     await ref.putFile(File(profileImagePath.value));
-    profielImageLink = await ref.getDownloadURL();
+
+    profileImageLink = await ref.getDownloadURL();
   }
 
-  updateProfileData({email, password, imageUrl}) async {
-    var profileData = firebaseFirestore.collection(userCollection).doc(currentUser!.uid);
-
-    await profileData.set(
+  updateProfileData({name, password, imageUrl}) async {
+    var store = firebaseFirestore.collection(userCollection).doc(currentUser!.uid);
+    await store.set(
       {
-        'email': email,
+        'name': name,
         'password': password,
         'image_url': imageUrl,
       },
-      SetOptions(
-        merge: true,
-      ),
+      SetOptions(merge: true),
     );
     isLoading(false);
+  }
+
+  changeAuthProfile({email, password, newPassword, context}) async {
+    var creditinal = EmailAuthProvider.credential(email: email, password: password);
+    await currentUser!.reauthenticateWithCredential(creditinal).then((value) => currentUser!.updatePassword(newPassword)).catchError((error) {
+      VxToast.show(context, msg: error);
+    });
   }
 }
