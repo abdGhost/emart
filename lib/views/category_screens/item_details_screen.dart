@@ -337,6 +337,7 @@ class ItemDetailsScreen extends StatelessWidget {
                     color: data['p_color'][controller.colorIndex.value],
                     quantity: controller.quantity.value,
                     totalPrice: controller.totalPrice.value,
+                    id: currentUser!.uid,
                   );
                   VxToast.show(context, msg: 'Added To Cart');
                 },

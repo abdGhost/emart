@@ -14,4 +14,11 @@ class FirestoreServices {
         .where('p_category', isEqualTo: category)
         .snapshots();
   }
+
+  static getCart(uid) {
+    return firebaseFirestore
+        .collection(cartCollection)
+        .where('id', isEqualTo: uid)
+        .snapshots();
+  }
 }
