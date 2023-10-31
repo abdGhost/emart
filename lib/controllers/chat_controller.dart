@@ -22,7 +22,10 @@ class ChatController extends GetxController {
 
   dynamic chatDocId;
 
+  var isLoading = false.obs;
+
   getChatId() async {
+    isLoading(true);
     await chats
         .where('users', isEqualTo: {
           friendId: null,
@@ -46,11 +49,11 @@ class ChatController extends GetxController {
               chatDocId = value.id;
             });
           }
+          isLoading(false);
         });
   }
 
   sendMessage({String? message}) async {
-    print(message);
     if (message!.trim().isNotEmpty) {
       chats.doc(chatDocId).update({
         "created_on": FieldValue.serverTimestamp(),
@@ -58,11 +61,12 @@ class ChatController extends GetxController {
         "from_id": currentUser!.uid,
         "to_id": friendId,
       });
+      //For Creating message collection
+      chats.doc(chatDocId).collection(messagesCollection).doc().set({
+        "created_on": FieldValue.serverTimestamp(),
+        "last_message": message,
+        "uid": currentUser!.uid,
+      });
     }
-    chats.doc(chatDocId).collection(messagesCollection).doc().set({
-      "created_on": FieldValue.serverTimestamp(),
-      "last_message": message,
-      "uid": currentUser!.uid,
-    });
   }
 }

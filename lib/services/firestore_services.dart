@@ -16,4 +16,17 @@ class FirestoreServices {
   static deleteFromCart(docId) {
     return firebaseFirestore.collection(cartCollection).doc(docId).delete();
   }
+
+  //Get all chat Message
+  static getChatMessage(docId) {
+    return firebaseFirestore
+        .collection(chatsCollection)
+        .doc(docId)
+        .collection(messagesCollection)
+        .orderBy(
+          'created_on',
+          descending: true,
+        )
+        .snapshots();
+  }
 }

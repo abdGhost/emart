@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart_app/consts/consts.dart';
 import 'package:emart_app/controllers/chat_controller.dart';
+import 'package:emart_app/services/firestore_services.dart';
 import 'package:get/get.dart';
 
 import 'components/sender_bubbles.dart';
@@ -19,16 +21,39 @@ class ChatScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Expanded(
-              child: SizedBox(
-                child: ListView(
-                  children: [
-                    senderBubble(),
-                    senderBubble(),
-                  ],
-                ),
-              ),
-            ),
+            Obx(() {
+              return controller.isLoading.value == true
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation(redColor),
+                      ),
+                    )
+                  : Expanded(
+                      child: StreamBuilder(
+                      stream: FirestoreServices.getChatMessage(controller.chatDocId.toString()),
+                      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(redColor),
+                            ),
+                          );
+                        } else if (snapshot.data!.docs.isEmpty) {
+                          return Center(
+                            child: "Send Message...".text.fontFamily(semibold).color(darkFontGrey).make(),
+                          );
+                        } else {
+                          return ListView(
+                            children: snapshot.data!.docs.mapIndexed((currentValue, index) {
+                              var data = snapshot.data!.docs[index];
+                              print(data['uid']);
+                              return senderBubble(data);
+                            }).toList(),
+                          );
+                        }
+                      },
+                    ));
+            }),
             Row(
               children: [
                 Expanded(
