@@ -18,8 +18,7 @@ class ProductController extends GetxController {
     storeData.clear();
     var data = await rootBundle.loadString('lib/services/category_model.json');
     var decodedData = categoryModelListFromJson(data);
-    var s =
-        decodedData.category.where((element) => element.name == title).toList();
+    var s = decodedData.category.where((element) => element.name == title).toList();
 
     for (var e in s[0].subCategory) {
       storeData.add(e);
@@ -44,17 +43,10 @@ class ProductController extends GetxController {
 
   calculateTotalPrice(price) {
     totalPrice.value = price * quantity.value;
+    print(totalPrice.value);
   }
 
-  addToCart(
-      {titile,
-      image,
-      sellerName,
-      color,
-      quantity,
-      totalPrice,
-      id,
-      context}) async {
+  addToCart({titile, image, sellerName, color, quantity, totalPrice, id, context}) async {
     await firebaseFirestore.collection(cartCollection).doc().set({
       'titile': titile,
       'image': image,
