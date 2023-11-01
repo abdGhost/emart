@@ -45,12 +45,23 @@ class ItemDetailsScreen extends StatelessWidget {
                 Icons.share,
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.favorite_outline,
+            Obx(
+              () => IconButton(
+                onPressed: () {
+                  if (controller.isFav.value) {
+                    controller.removeFromWishList(data.id);
+                    controller.isFav(false);
+                  } else {
+                    controller.addToWishList(data.id);
+                    controller.isFav(true);
+                  }
+                },
+                icon: Icon(
+                  Icons.favorite,
+                  color: controller.isFav.value ? redColor : darkFontGrey,
+                ),
               ),
-            ),
+            )
           ],
         ),
         body: Column(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart_app/consts/consts.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,8 @@ class ProductController extends GetxController {
   var colorIndex = 0.obs;
 
   var totalPrice = 0.obs;
+
+  var isFav = false.obs;
 
   //Get All Product Details
   getProductData(title) async {
@@ -43,7 +46,6 @@ class ProductController extends GetxController {
 
   calculateTotalPrice(price) {
     totalPrice.value = price * quantity.value;
-    print(totalPrice.value);
   }
 
   addToCart({titile, image, sellerName, color, quantity, totalPrice, id, context}) async {
@@ -64,5 +66,23 @@ class ProductController extends GetxController {
     totalPrice.value = 0;
     quantity.value = 0;
     colorIndex.value = 0;
+  }
+
+  addToWishList(docId) {
+    firebaseFirestore.collection(productCollection).doc(docId).set(
+      {
+        'p_wishlist': FieldValue.arrayUnion([currentUser!.uid]),
+      },
+      SetOptions(merge: true),
+    );
+  }
+
+  removeFromWishList(docId) {
+    firebaseFirestore.collection(productCollection).doc(docId).set(
+      {
+        'p_wishlist': FieldValue.arrayRemove([currentUser!.uid]),
+      },
+      SetOptions(merge: true),
+    );
   }
 }
