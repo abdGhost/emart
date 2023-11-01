@@ -17,16 +17,8 @@ class FirestoreServices {
     return firebaseFirestore.collection(cartCollection).doc(docId).delete();
   }
 
-  //Get all chat Message
+  // Get all chat Message
   static getChatMessage(docId) {
-    return firebaseFirestore
-        .collection(chatsCollection)
-        .doc(docId)
-        .collection(messagesCollection)
-        .orderBy(
-          'created_on',
-          descending: true,
-        )
-        .snapshots();
+    return firebaseFirestore.collection(chatsCollection).doc(docId).collection(messagesCollection).orderBy('created_on', descending: false).snapshots();
   }
 }
