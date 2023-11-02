@@ -5,17 +5,22 @@ Widget orderStatus({icon, color, title, showDone}) {
     leading: Icon(
       icon,
       color: color,
-    ).box.color(color).make(),
-    trailing: Row(
-      children: [
-        '$title'.text.fontFamily(semibold).color(darkFontGrey).make(),
-        showDone
-            ? const Icon(
-                Icons.done,
-                color: redColor,
-              )
-            : const SizedBox(),
-      ],
+    ).box.border(color: color).padding(const EdgeInsets.all(4)).make(),
+    trailing: SizedBox(
+      height: 100,
+      width: 120,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          '$title'.text.fontFamily(semibold).color(darkFontGrey).make(),
+          showDone
+              ? const Icon(
+                  Icons.done,
+                  color: redColor,
+                )
+              : const SizedBox(),
+        ],
+      ),
     ),
   );
 }

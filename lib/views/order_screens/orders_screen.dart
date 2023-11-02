@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart_app/consts/consts.dart';
 import 'package:emart_app/services/firestore_services.dart';
+import 'package:emart_app/views/order_screens/order_details_screen.dart';
+import 'package:get/get.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -37,7 +39,9 @@ class OrdersScreen extends StatelessWidget {
                         Icons.arrow_forward_ios_outlined,
                         color: redColor,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(() => OrderDetailsScreen(data: data[index]));
+                      },
                     ),
                   );
                 });
