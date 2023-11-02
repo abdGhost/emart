@@ -57,8 +57,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                                 .white
                                 .rounded
                                 .size(150, 60)
-                                .margin(
-                                    const EdgeInsets.symmetric(horizontal: 4))
+                                .margin(const EdgeInsets.symmetric(horizontal: 4))
                                 .make(),
                           ),
                         ),
@@ -68,8 +67,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                           child: GridView.builder(
                         itemCount: data.length,
                         shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 8,
                           mainAxisSpacing: 8,
@@ -86,29 +84,13 @@ class CategoryDetailsScreen extends StatelessWidget {
                                 fit: BoxFit.fill,
                               ),
                               const Spacer(),
-                              '${data[index]['p_name']}'
-                                  .text
-                                  .fontFamily(semibold)
-                                  .color(darkFontGrey)
-                                  .make(),
+                              '${data[index]['p_name']}'.text.fontFamily(semibold).color(darkFontGrey).make(),
                               10.heightBox,
-                              '${data[index]['p_price']}'
-                                  .numCurrency
-                                  .text
-                                  .fontFamily(bold)
-                                  .color(redColor)
-                                  .size(18)
-                                  .make()
+                              '${data[index]['p_price']}'.numCurrency.text.fontFamily(bold).color(redColor).size(18).make()
                             ],
-                          )
-                              .box
-                              .white
-                              .roundedSM
-                              .outerShadowMd
-                              .padding(const EdgeInsets.all(12))
-                              .margin(const EdgeInsets.symmetric(horizontal: 4))
-                              .make()
-                              .onTap(() {
+                          ).box.white.roundedSM.outerShadowMd.padding(const EdgeInsets.all(12)).margin(const EdgeInsets.symmetric(horizontal: 4)).make().onTap(() {
+                            controller.checkIsFav(data[index]);
+
                             Get.to(() => ItemDetailsScreen(
                                   titile: data[index]['p_name'],
                                   data: data[index],

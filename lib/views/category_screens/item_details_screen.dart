@@ -49,11 +49,11 @@ class ItemDetailsScreen extends StatelessWidget {
               () => IconButton(
                 onPressed: () {
                   if (controller.isFav.value) {
-                    controller.removeFromWishList(data.id);
-                    controller.isFav(false);
+                    controller.removeFromWishList(docId: data.id, context: context);
+                    // controller.isFav(false);
                   } else {
-                    controller.addToWishList(data.id);
-                    controller.isFav(true);
+                    controller.addToWishList(docId: data.id, context: context);
+                    // controller.isFav(true);
                   }
                 },
                 icon: Icon(
