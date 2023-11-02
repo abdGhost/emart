@@ -60,6 +60,8 @@ class CartsScreen extends StatelessWidget {
                         return ListTile(
                           leading: Image.network(
                             '${data[index]['image']}',
+                            width: 120,
+                            fit: BoxFit.cover,
                           ),
                           title: '${data[index]['titile']} (${data[index]['quantity']})'.text.fontFamily(semibold).size(16).make(),
                           subtitle: '${data[index]['totalPrice']}'.numCurrency.text.fontFamily(semibold).color(redColor).make(),

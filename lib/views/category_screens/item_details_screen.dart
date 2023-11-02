@@ -265,6 +265,7 @@ class ItemDetailsScreen extends StatelessWidget {
                 onPressed: () {
                   controller.addToCart(
                     context: context,
+                    vendorId: data['vendor_id'],
                     titile: data['p_name'],
                     image: data['p_images'][0],
                     sellerName: data['p_seller'],
