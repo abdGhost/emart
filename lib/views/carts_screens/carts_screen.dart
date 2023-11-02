@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart_app/controllers/cart_controller.dart';
+import 'package:emart_app/views/carts_screens/shipping_details_screen.dart';
 import 'package:emart_app/widgets/our_button_widget.dart';
 import 'package:get/get.dart';
 
@@ -14,13 +15,20 @@ class CartsScreen extends StatelessWidget {
     var controller = Get.put(CartController());
     return Scaffold(
       backgroundColor: whiteColor,
+      bottomNavigationBar: SizedBox(
+        height: 60,
+        child: ourButton(
+          onPressed: () {
+            Get.to(() => const ShippingDetailsScreen());
+          },
+          color: redColor,
+          textColor: whiteColor,
+          title: "Procced To Shoping",
+        ),
+      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: "Shopping Cart"
-            .text
-            .color(darkFontGrey)
-            .fontFamily(semibold)
-            .make(),
+        title: "Shopping Cart".text.color(darkFontGrey).fontFamily(semibold).make(),
       ),
       body: StreamBuilder(
         stream: FirestoreServices.getCart(currentUser!.uid),
@@ -33,11 +41,7 @@ class CartsScreen extends StatelessWidget {
             );
           } else if (snapshot.data!.docs.isEmpty) {
             return Center(
-              child: "Cart is empty"
-                  .text
-                  .fontFamily(semibold)
-                  .color(darkFontGrey)
-                  .make(),
+              child: "Cart is empty".text.fontFamily(semibold).color(darkFontGrey).make(),
             );
           } else {
             var data = snapshot.data!.docs;
@@ -55,18 +59,8 @@ class CartsScreen extends StatelessWidget {
                           leading: Image.network(
                             '${data[index]['image']}',
                           ),
-                          title:
-                              '${data[index]['titile']} (${data[index]['quantity']})'
-                                  .text
-                                  .fontFamily(semibold)
-                                  .size(16)
-                                  .make(),
-                          subtitle: '${data[index]['totalPrice']}'
-                              .numCurrency
-                              .text
-                              .fontFamily(semibold)
-                              .color(redColor)
-                              .make(),
+                          title: '${data[index]['titile']} (${data[index]['quantity']})'.text.fontFamily(semibold).size(16).make(),
+                          subtitle: '${data[index]['totalPrice']}'.numCurrency.text.fontFamily(semibold).color(redColor).make(),
                           trailing: const Icon(
                             Icons.delete,
                             color: redColor,
@@ -81,36 +75,21 @@ class CartsScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      "Total Price"
-                          .text
-                          .fontFamily(semibold)
-                          .color(fontGrey)
-                          .make(),
+                      "Total Price".text.fontFamily(semibold).color(fontGrey).make(),
                       Obx(
-                        () => "${controller.totalPrice}"
-                            .numCurrency
-                            .text
-                            .fontFamily(semibold)
-                            .color(redColor)
-                            .make(),
+                        () => "${controller.totalPrice}".numCurrency.text.fontFamily(semibold).color(redColor).make(),
                       )
                     ],
-                  )
-                      .box
-                      .color(lightGolden)
-                      .roundedSM
-                      .padding(const EdgeInsets.all(12))
-                      .width(context.screenWidth - 60)
-                      .make(),
+                  ).box.color(lightGolden).roundedSM.padding(const EdgeInsets.all(12)).width(context.screenWidth - 60).make(),
                   const HeightBox(10),
-                  SizedBox(
-                    width: context.screenWidth - 60,
-                    child: ourButton(
-                        onPressed: () {},
-                        color: redColor,
-                        textColor: whiteColor,
-                        title: "Procced To Shoping"),
-                  )
+                  // SizedBox(
+                  //   width: context.screenWidth - 60,
+                  //   child: ourButton(
+                  //       onPressed: () {},
+                  //       color: redColor,
+                  //       textColor: whiteColor,
+                  //       title: "Procced To Shoping"),
+                  // ),
                 ],
               ),
             );

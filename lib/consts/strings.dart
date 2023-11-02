@@ -73,3 +73,6 @@ const productYouMayAlsoLike = "Product You May Also Like";
 const myOrder = "My Order";
 const myWishlist = "My Wishlist";
 const message = "Messages";
+
+// Payment Method String
+const paypal = 'PayPal', stripe = 'Stripe', cashOnDelivery = 'Cash on delivery';
