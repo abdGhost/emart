@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emart_app/views/category_screens/item_details_screen.dart';
+import 'package:get/get.dart';
 import '../../consts/icons_list.dart';
 import '../../services/firestore_services.dart';
 import '../../views/home_screens/components/features_button.dart';
@@ -176,7 +178,8 @@ class HomeScreen extends StatelessWidget {
                                                 children: [
                                                   Image.network(
                                                     featureProduct[index]['p_images'][0],
-                                                    width: 200,
+                                                    width: 140,
+                                                    height: 120,
                                                     fit: BoxFit.fill,
                                                   ),
                                                   10.heightBox,
@@ -184,7 +187,12 @@ class HomeScreen extends StatelessWidget {
                                                   10.heightBox,
                                                   '${featureProduct[index]['p_price']}'.numCurrency.text.fontFamily(bold).color(redColor).size(18).make()
                                                 ],
-                                              ).box.white.rounded.padding(const EdgeInsets.all(8)).margin(const EdgeInsets.symmetric(horizontal: 4)).make()),
+                                              ).box.white.rounded.padding(const EdgeInsets.all(8)).margin(const EdgeInsets.symmetric(horizontal: 4)).make().onTap(() {
+                                                Get.to(() => ItemDetailsScreen(
+                                                      titile: "${featureProduct[index]['p_name']}",
+                                                      data: featureProduct[index],
+                                                    ));
+                                              })),
                                     );
                                   }
                                 },
@@ -246,7 +254,7 @@ class HomeScreen extends StatelessWidget {
                                     children: [
                                       Image.network(
                                         allProduts[index]['p_images'][0],
-                                        width: 200,
+                                        width: 140,
                                         fit: BoxFit.fill,
                                       ),
                                       const Spacer(),
@@ -254,7 +262,12 @@ class HomeScreen extends StatelessWidget {
                                       10.heightBox,
                                       "${allProduts[index]['p_price']}".numCurrency.text.fontFamily(bold).color(redColor).size(18).make()
                                     ],
-                                  ).box.white.rounded.padding(const EdgeInsets.all(12)).margin(const EdgeInsets.symmetric(horizontal: 4)).make();
+                                  ).box.white.rounded.padding(const EdgeInsets.all(12)).margin(const EdgeInsets.symmetric(horizontal: 4)).make().onTap(() {
+                                    Get.to(() => ItemDetailsScreen(
+                                          titile: "${allProduts[index]['p_name']}",
+                                          data: allProduts[index],
+                                        ));
+                                  });
                                 }));
                           }
                         })
