@@ -49,7 +49,11 @@ class FirestoreServices {
         return value.docs.length;
       }),
     });
-
     return res;
+  }
+
+// get All product
+  static getAllProduct() {
+    return firebaseFirestore.collection(productCollection).snapshots();
   }
 }
