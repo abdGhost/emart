@@ -52,8 +52,13 @@ class FirestoreServices {
     return res;
   }
 
-// get All product
+  // get All product
   static getAllProduct() {
     return firebaseFirestore.collection(productCollection).snapshots();
+  }
+
+  // get all featured products
+  static getAllFeaturedProducts() {
+    return firebaseFirestore.collection(productCollection).where('is_featured', isEqualTo: true).get();
   }
 }

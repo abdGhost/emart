@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emart_app/consts/icons_list.dart';
-import 'package:emart_app/services/firestore_services.dart';
-import 'package:emart_app/views/home_screens/components/features_button.dart';
-import 'package:emart_app/widgets/home_buttons.dart';
+import '../../consts/icons_list.dart';
+import '../../services/firestore_services.dart';
+import '../../views/home_screens/components/features_button.dart';
+import '../../widgets/home_buttons.dart';
 
 import '../../consts/consts.dart';
 
@@ -155,8 +155,8 @@ class HomeScreen extends StatelessWidget {
                           10.heightBox,
                           SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: StreamBuilder(
-                                stream: FirestoreServices.getAllProduct(),
+                              child: FutureBuilder(
+                                future: FirestoreServices.getAllFeaturedProducts(),
                                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (!snapshot.hasData) {
                                     return const Center(
@@ -164,6 +164,8 @@ class HomeScreen extends StatelessWidget {
                                         valueColor: AlwaysStoppedAnimation(redColor),
                                       ),
                                     );
+                                  } else if (snapshot.data!.docs.isEmpty) {
+                                    return "No Featured Producted added".text.fontFamily(semibold).color(whiteColor).make();
                                   } else {
                                     var featureProduct = snapshot.data!.docs;
                                     return Row(
@@ -174,9 +176,8 @@ class HomeScreen extends StatelessWidget {
                                                 children: [
                                                   Image.network(
                                                     featureProduct[index]['p_images'][0],
-                                                    width: 150,
-                                                    height: 120,
-                                                    fit: BoxFit.cover,
+                                                    width: 200,
+                                                    fit: BoxFit.fill,
                                                   ),
                                                   10.heightBox,
                                                   '${featureProduct[index]['p_name']}'.text.fontFamily(semibold).color(darkFontGrey).make(),
