@@ -1,6 +1,7 @@
-import 'package:emart_app/consts/consts.dart';
-import 'package:emart_app/views/order_screens/components/order_place_details.dart';
-import 'package:emart_app/views/order_screens/components/order_status.dart';
+import '../../consts/consts.dart';
+import '../../views/order_screens/components/order_place_details.dart';
+import '../../views/order_screens/components/order_status.dart';
+import 'package:intl/intl.dart' as intl;
 
 class OrderDetailsScreen extends StatelessWidget {
   final dynamic data;
@@ -51,6 +52,20 @@ class OrderDetailsScreen extends StatelessWidget {
               detail1: '${data['order_code']}',
               title2: 'Shipping Method',
               details2: '${data['shipping_method']}',
+            ),
+            orderPlacedetails(
+              title1: 'Order Date',
+              //For formating date
+              detail1: intl.DateFormat().add_yMd().format(data['order_date'].toDate()),
+              title2: 'Payment Method',
+              details2: '${data['payment_method']}',
+            ),
+            orderPlacedetails(
+              title1: 'Payment Status',
+              //For formating date
+              detail1: "Unpaid",
+              title2: 'Delivery Status',
+              details2: 'Order Placed',
             ),
           ],
         ),
