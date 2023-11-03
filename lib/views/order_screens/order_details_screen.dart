@@ -18,6 +18,7 @@ class OrderDetailsScreen extends StatelessWidget {
         title: 'Order Details'.text.fontFamily(semibold).color(darkFontGrey).make(),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -133,12 +134,14 @@ class OrderDetailsScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                        )
+                        ),
+                        const Divider(),
                       ],
                     );
                   },
                 ).toList(),
-              ),
+              ).box.outerShadowMd.white.margin(const EdgeInsets.only(bottom: 4)).make(),
+              20.heightBox,
             ],
           ),
         ),
