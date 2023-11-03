@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emart_app/consts/consts.dart';
-import 'package:emart_app/services/firestore_services.dart';
-import 'package:emart_app/views/category_screens/item_details_screen.dart';
+import '../../consts/consts.dart';
+import '../../services/firestore_services.dart';
+import '../../views/category_screens/item_details_screen.dart';
 import 'package:get/get.dart';
 
 class SearchScreen extends StatelessWidget {

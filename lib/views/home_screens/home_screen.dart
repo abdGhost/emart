@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                   fillColor: whiteColor,
                   filled: true,
                   hintText: searchAnything,
-                  hintStyle: TextStyle(color: textfieldGrey),
+                  hintStyle: const TextStyle(color: textfieldGrey),
                 ),
               ),
             ),
