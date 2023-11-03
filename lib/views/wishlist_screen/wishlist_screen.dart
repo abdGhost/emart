@@ -26,7 +26,31 @@ class WishlistScreen extends StatelessWidget {
               child: 'No items at wishlist'.text.fontFamily(semibold).color(darkFontGrey).make(),
             );
           } else {
-            return Container();
+            var data = snaphsot.data!.docs;
+            return ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: Image.network(
+                      '${data[index]['p_images'][0]}',
+                      width: 120,
+                      fit: BoxFit.cover,
+                    ),
+                    title: '${data[index]['p_name']}'.text.fontFamily(semibold).size(16).make(),
+                    subtitle: '${data[index]['p_price']}'.numCurrency.text.fontFamily(semibold).color(redColor).make(),
+                    trailing: const Icon(
+                      Icons.favorite,
+                      color: redColor,
+                    ).onTap(() {
+                      firebaseFirestore.collection(productCollection).doc(data[index].id).set(
+                        {
+                          'p_wishlist': FieldValue.arrayRemove([currentUser!.uid]),
+                        },
+                        SetOptions(merge: true),
+                      );
+                    }),
+                  );
+                });
           }
         },
       ),
