@@ -36,4 +36,20 @@ class FirestoreServices {
   static getMessage() {
     return firebaseFirestore.collection(chatsCollection).where('from_id', isEqualTo: currentUser!.uid).snapshots();
   }
+
+  static getCounts() {
+    var res = Future.wait({
+      firebaseFirestore.collection(cartCollection).where('added_by', isEqualTo: currentUser!.uid).get().then((value) {
+        return value.docs.length;
+      }),
+      firebaseFirestore.collection(productCollection).where('p_wishlist', arrayContains: currentUser!.uid).get().then((value) {
+        return value.docs.length;
+      }),
+      firebaseFirestore.collection(orderCollection).where('order_by', isEqualTo: currentUser!.uid).get().then((value) {
+        return value.docs.length;
+      }),
+    });
+
+    return res;
+  }
 }

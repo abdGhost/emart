@@ -21,6 +21,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var controller = Get.put(ProfileController());
     // print(FirestoreServices.getUser(currentUser!.uid));
+    FirestoreServices.getCounts();
 
     return bgWidget(
       child: StreamBuilder(
@@ -94,26 +95,61 @@ class ProfileScreen extends StatelessWidget {
                         ],
                       ),
                       10.heightBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          detialsCard(
-                            width: context.screenWidth / 3.4,
-                            count: "${data['cart_count']}",
-                            title: "in your cart",
-                          ),
-                          detialsCard(
-                            width: context.screenWidth / 3.4,
-                            count: "${data['wishlist_count']}",
-                            title: "in wishlist",
-                          ),
-                          detialsCard(
-                            width: context.screenWidth / 3.4,
-                            count: "${data['total_count']}",
-                            title: "your orders",
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //   children: [
+                      //     detialsCard(
+                      //       width: context.screenWidth / 3.4,
+                      //       count: "${data['cart_count']}",
+                      //       title: "in your cart",
+                      //     ),
+                      //     detialsCard(
+                      //       width: context.screenWidth / 3.4,
+                      //       count: "${data['wishlist_count']}",
+                      //       title: "in wishlist",
+                      //     ),
+                      //     detialsCard(
+                      //       width: context.screenWidth / 3.4,
+                      //       count: "${data['total_count']}",
+                      //       title: "your orders",
+                      //     ),
+                      //   ],
+                      // ),
+
+                      FutureBuilder(
+                          future: FirestoreServices.getCounts(),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation(redColor),
+                                ),
+                              );
+                            } else {
+                              var countData = snapshot.data;
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  detialsCard(
+                                    width: context.screenWidth / 3.4,
+                                    count: countData[0].toString(),
+                                    title: "in your cart",
+                                  ),
+                                  detialsCard(
+                                    width: context.screenWidth / 3.4,
+                                    count: countData[1].toString(),
+                                    title: "in wishlist",
+                                  ),
+                                  detialsCard(
+                                    width: context.screenWidth / 3.4,
+                                    count: countData[2].toString(),
+                                    title: "your orders",
+                                  ),
+                                ],
+                              );
+                            }
+                          }),
+
                       10.heightBox,
                       ListView.separated(
                         shrinkWrap: true,
