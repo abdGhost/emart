@@ -61,4 +61,8 @@ class FirestoreServices {
   static getAllFeaturedProducts() {
     return firebaseFirestore.collection(productCollection).where('is_featured', isEqualTo: true).get();
   }
+
+  static getSearchProduct(String titile) {
+    return firebaseFirestore.collection(productCollection).where('p_name', isLessThanOrEqualTo: titile).get();
+  }
 }

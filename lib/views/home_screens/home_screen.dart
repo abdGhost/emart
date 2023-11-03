@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emart_app/controllers/home_controller.dart';
 import 'package:emart_app/views/category_screens/item_details_screen.dart';
+import 'package:emart_app/views/home_screens/search_screen.dart';
 import 'package:get/get.dart';
 import '../../consts/icons_list.dart';
 import '../../services/firestore_services.dart';
@@ -13,6 +15,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.find<HomeController>();
     return Container(
       padding: const EdgeInsets.all(12),
       height: context.screenHeight,
@@ -26,9 +29,16 @@ class HomeScreen extends StatelessWidget {
               height: 60,
               color: lightGrey,
               child: TextFormField(
-                decoration: const InputDecoration(
+                controller: controller.searchController,
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  suffixIcon: Icon(Icons.search),
+                  suffixIcon: const Icon(Icons.search).onTap(() {
+                    if (controller.searchController.text.isNotEmptyAndNotNull) {
+                      Get.to(() => SearchScreen(
+                            title: controller.searchController.text,
+                          ));
+                    }
+                  }),
                   fillColor: whiteColor,
                   filled: true,
                   hintText: searchAnything,
