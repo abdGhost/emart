@@ -16,7 +16,7 @@ Widget orderPlacedetails({title1, title2, detail1, details2}) {
           ],
         ),
         SizedBox(
-          width: 140,
+          width: 130,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -67,6 +67,38 @@ class OrderDetailsScreen extends StatelessWidget {
               title2: 'Delivery Status',
               details2: 'Order Placed',
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      'Shipping Address'.text.fontFamily(bold).make(),
+                      '${data['order_by_name']}'.text.make(),
+                      '${data['order_by_email']}'.text.make(),
+                      '${data['order_by_address']}'.text.make(),
+                      '${data['order_by_city']}'.text.make(),
+                      '${data['order_by_state']}'.text.make(),
+                      '${data['order_by_phone']}'.text.make(),
+                      '${data['order_by_postalCode']}'.text.make(),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 130,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        'Total Amount'.text.fontFamily(semibold).color(darkFontGrey).make(),
+                        '${data['total_amount']}'.text.fontFamily(bold).color(redColor).make(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
