@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../consts/consts.dart';
 import '../../services/firestore_services.dart';
@@ -32,6 +34,11 @@ class SearchScreen extends StatelessWidget {
               );
             } else {
               var data = snapshot.data!.docs;
+              var seacrhData = data
+                  .where(((element) => element['p_name'].toString().toLowerCase().contains(
+                        title.toLowerCase(),
+                      )))
+                  .toList();
               return GridView(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -39,20 +46,20 @@ class SearchScreen extends StatelessWidget {
                   crossAxisSpacing: 8,
                   mainAxisExtent: 300,
                 ),
-                children: data
+                children: seacrhData
                     .mapIndexed((currentValue, index) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Image.network(
-                              data[index]['p_images'][0],
+                              seacrhData[index]['p_images'][0],
                               width: 140,
                               height: 140,
                               fit: BoxFit.fill,
                             ),
                             10.heightBox,
-                            "${data[index]['p_name']}".text.fontFamily(semibold).color(darkFontGrey).make(),
+                            "${seacrhData[index]['p_name']}".text.fontFamily(semibold).color(darkFontGrey).make(),
                             10.heightBox,
-                            "${data[index]['p_price']}".numCurrency.text.fontFamily(bold).color(redColor).size(18).make()
+                            "${seacrhData[index]['p_price']}".numCurrency.text.fontFamily(bold).color(redColor).size(18).make()
                           ],
                         ).box.white.padding(const EdgeInsets.all(12)).outerShadowMd.margin(const EdgeInsets.symmetric(horizontal: 4)).make().onTap(() {
                           Get.to(() => ItemDetailsScreen(titile: data[index]['p_name'], data: data[index]));
