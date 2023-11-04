@@ -62,7 +62,7 @@ class SearchScreen extends StatelessWidget {
                             "${seacrhData[index]['p_price']}".numCurrency.text.fontFamily(bold).color(redColor).size(18).make()
                           ],
                         ).box.white.padding(const EdgeInsets.all(12)).outerShadowMd.margin(const EdgeInsets.symmetric(horizontal: 4)).make().onTap(() {
-                          Get.to(() => ItemDetailsScreen(titile: data[index]['p_name'], data: data[index]));
+                          Get.to(() => ItemDetailsScreen(titile: seacrhData[index]['p_name'], data: seacrhData[index]));
                         }))
                     .toList(),
               );

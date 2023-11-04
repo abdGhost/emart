@@ -9,6 +9,10 @@ class FirestoreServices {
     return firebaseFirestore.collection('products').where('p_category', isEqualTo: category).snapshots();
   }
 
+  static getSubCategoryProduct(titile) {
+    return firebaseFirestore.collection('products').where('p_subCategory', isEqualTo: titile).snapshots();
+  }
+
   static getCart(uid) {
     return firebaseFirestore.collection(cartCollection).where('id', isEqualTo: uid).snapshots();
   }
